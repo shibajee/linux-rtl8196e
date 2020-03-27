@@ -1,0 +1,17 @@
+Realtek RTL8196E SoC timer
+
+Required properties:
+
+- compatible : Should be "realtek,rtl8196e-timer".
+- reg : Specifies base physical address and size of the registers.
+- interrupts : The interrupt number of the timer.
+- clocks: phandle to the source clock (usually a 25 MHz fixed clock)
+
+Example:
+
+timer {
+	compatible = "realtek,rtl8196e-timer";
+	reg = <0xB8003100 0x20>;
+	interrupts = <0>;
+	clocks = <&sysclk>;
+};
