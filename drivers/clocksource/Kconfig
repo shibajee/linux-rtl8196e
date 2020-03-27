@@ -696,4 +696,12 @@ config INGENIC_TIMER
 	help
 	  Support for the timer/counter unit of the Ingenic JZ SoCs.
 
+config RTL8196E_TIMER
+	bool "RTL8196E timer driver" if COMPILE_TEST
+	depends on HAS_IOMEM
+	select TIMER_OF
+	select CLKSRC_MMIO
+	help
+	  Enables support for the RTL8196E timer driver.
+
 endmenu
