@@ -231,6 +231,12 @@ void cpu_cache_init(void)
 		octeon_cache_init();
 	}
 
+	if (cpu_has_rlx4181_cache) {
+		extern void __weak rlx4181_cache_init(void);
+
+		rlx4181_cache_init();
+	}
+
 	setup_protection_map();
 }
 

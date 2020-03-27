@@ -357,6 +357,23 @@ config MACH_DECSTATION
 
 	  otherwise choose R3000.
 
+config MACH_RTL8196E
+	bool "Realtek RTL8196E SoC"
+	select SYS_SUPPORTS_BIG_ENDIAN
+	select SYS_SUPPORTS_32BIT_KERNEL
+	select SYS_HAS_CPU_RLX4181
+	select DMA_NONCOHERENT
+	select SYS_SUPPORTS_ZBOOT_UART16550
+	select SYS_HAS_EARLY_PRINTK
+	select USE_GENERIC_EARLY_PRINTK_8250
+	select USE_OF
+	select COMMON_CLK
+	select RTL8196E_IRQ
+	select RTL8196E_TIMER
+	select BUILTIN_DTB
+	help
+	  Realtek RTL8196E SoC support.
+
 config MACH_JAZZ
 	bool "Jazz family of machines"
 	select ARCH_MIGHT_HAVE_PC_PARPORT
@@ -1601,6 +1618,16 @@ config CPU_TX39XX
 	select CPU_HAS_LOAD_STORE_LR
 	select CPU_R3K_TLB
 
+config CPU_RLX4181
+	bool "RLX4181"
+	depends on SYS_HAS_CPU_RLX4181
+	select CPU_R3K_TLB
+	select CPU_SUPPORTS_32BIT_KERNEL
+	help
+	  Choose this option to build a kernel for the Realtek Lexra RLX4181 CPU.
+	  Realtek Lexra RLX4181 implements the MIPS-I instruction set, without
+	  unaligned load and store instructions (lwl, lwr, swl, swr).
+
 config CPU_VR41XX
 	bool "R41xx"
 	depends on SYS_HAS_CPU_VR41XX
@@ -1953,6 +1980,9 @@ config SYS_HAS_CPU_R3000
 config SYS_HAS_CPU_TX39XX
 	bool
 
+config SYS_HAS_CPU_RLX4181
+	bool
+
 config SYS_HAS_CPU_VR41XX
 	bool
 
@@ -2181,7 +2211,7 @@ config PAGE_SIZE_8KB
 
 config PAGE_SIZE_16KB
 	bool "16kB"
-	depends on !CPU_R3000 && !CPU_TX39XX
+	depends on !CPU_R3000 && !CPU_TX39XX && !CPU_RLX4181
 	help
 	  Using 16kB page size will result in higher performance kernel at
 	  the price of higher memory consumption.  This option is available on
@@ -2200,7 +2230,7 @@ config PAGE_SIZE_32KB
 
 config PAGE_SIZE_64KB
 	bool "64kB"
-	depends on !CPU_R3000 && !CPU_TX39XX
+	depends on !CPU_R3000 && !CPU_TX39XX && !CPU_RLX4181
 	help
 	  Using 64kB page size will result in higher performance kernel at
 	  the price of higher memory consumption.  This option is available on
@@ -2268,7 +2298,7 @@ config CPU_HAS_PREFETCH
 
 config CPU_GENERIC_DUMP_TLB
 	bool
-	default y if !(CPU_R3000 || CPU_TX39XX)
+	default y if !(CPU_R3000 || CPU_TX39XX || CPU_RLX4181)
 
 config MIPS_FP_SUPPORT
 	bool "Floating Point support" if EXPERT
@@ -2288,7 +2318,7 @@ config MIPS_FP_SUPPORT
 config CPU_R2300_FPU
 	bool
 	depends on MIPS_FP_SUPPORT
-	default y if CPU_R3000 || CPU_TX39XX
+	default y if CPU_R3000 || CPU_TX39XX || CPU_RLX4181
 
 config CPU_R3K_TLB
 	bool
@@ -2300,7 +2330,7 @@ config CPU_R4K_FPU
 
 config CPU_R4K_CACHE_TLB
 	bool
-	default y if !(CPU_R3K_TLB || CPU_SB1 || CPU_CAVIUM_OCTEON)
+	default y if !(CPU_R3K_TLB || CPU_SB1 || CPU_CAVIUM_OCTEON || CPU_RLX4181)
 
 config MIPS_MT_SMP
 	bool "MIPS MT SMP support (1 TC on each available VPE)"
@@ -2538,7 +2568,7 @@ config CPU_MIPSR2_IRQ_EI
 
 config CPU_HAS_SYNC
 	bool
-	depends on !CPU_R3000
+	depends on !(CPU_R3000 || CPU_RLX4181)
 	default y
 
 #
@@ -2556,13 +2586,13 @@ config CPU_R4400_WORKAROUNDS
 
 config MIPS_ASID_SHIFT
 	int
-	default 6 if CPU_R3000 || CPU_TX39XX
+	default 6 if CPU_R3000 || CPU_TX39XX || CPU_RLX4181
 	default 0
 
 config MIPS_ASID_BITS
 	int
 	default 0 if MIPS_ASID_BITS_VARIABLE
-	default 6 if CPU_R3000 || CPU_TX39XX
+	default 6 if CPU_R3000 || CPU_TX39XX || CPU_RLX4181
 	default 8
 
 config MIPS_ASID_BITS_VARIABLE

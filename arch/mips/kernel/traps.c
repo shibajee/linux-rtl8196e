@@ -687,6 +687,37 @@ static int simulate_rdhwr_mm(struct pt_regs *regs, unsigned int opcode)
 	return -1;
 }
 
+int simulate_rdhwr_in_page_fault(struct pt_regs *regs)
+{
+#ifdef CONFIG_CPU_RLX4181
+	unsigned long old_epc = regs->cp0_epc;
+	unsigned long old31 = regs->regs[31];
+	unsigned int opcode = 0;
+	unsigned int __user *epc;
+
+	if (get_isa16_mode(regs->cp0_epc))
+		goto err;
+
+	epc = (unsigned int __user *)exception_epc(regs);
+	if (unlikely(get_user(opcode, epc)))
+		goto err;
+
+	if (unlikely(compute_return_epc(regs) < 0))
+		goto err;
+
+	if (!simulate_rdhwr_normal(regs, opcode))
+		return 0;  /* Success */
+
+err:
+	regs->cp0_epc = old_epc;		/* Undo skip-over.  */
+	regs->regs[31] = old31;
+
+	return -1;
+#else /* !CONFIG_CPU_RLX4181 */
+	return -1;
+#endif
+}
+
 static int simulate_sync(struct pt_regs *regs, unsigned int opcode)
 {
 	if ((opcode & OPCODE) == SPEC0 && (opcode & FUNC) == SYNC) {

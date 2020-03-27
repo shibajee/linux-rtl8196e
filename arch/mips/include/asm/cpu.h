@@ -92,6 +92,7 @@
 #define PRID_IMP_R5432		0x5400
 #define PRID_IMP_R5500		0x5500
 #define PRID_IMP_LOONGSON_64	0x6300  /* Loongson-2/3 */
+#define PRID_IMP_RLX4181		0xcd01
 
 #define PRID_IMP_UNKNOWN	0xff00
 
@@ -306,6 +307,11 @@ enum cpu_type_enum {
 	CPU_TX3912, CPU_TX3922, CPU_TX3927,
 
 	/*
+	 * Realtek Lexra processors
+	 */
+	CPU_RLX4181,
+
+	/*
 	 * MIPS32 class processors
 	 */
 	CPU_4KC, CPU_4KEC, CPU_4KSC, CPU_24K, CPU_34K, CPU_1004K, CPU_74K,
@@ -413,6 +419,7 @@ enum cpu_type_enum {
 #define MIPS_CPU_MT_PER_TC_PERF_COUNTERS \
 				BIT_ULL(56)	/* CPU has perf counters implemented per TC (MIPSMT ASE) */
 #define MIPS_CPU_MMID		BIT_ULL(57)	/* CPU supports MemoryMapIDs */
+#define MIPS_CPU_RLX4181_CACHE	BIT_ULL(58)
 
 /*
  * CPU ASE encodings

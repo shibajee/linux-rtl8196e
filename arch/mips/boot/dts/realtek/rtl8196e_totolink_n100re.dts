@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+
+/include/ "rtl8196e.dtsi"
+
+/ {
+	compatible = "totolink,n100re", "realtek,rtl8196e-soc";
+	model = "Totolink N100RE";
+
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x00000000 0x02000000>; /* 32MB */
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,38400n8 root=/dev/mtdblock3 rootfstype=squashfs ro";
+	};
+
+	flash0: flash@1e000000 {
+		compatible = "cfi-flash";
+		reg = <0x1e000000 0x400000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		bank-width = <2>;
+
+		partition@0 {
+			label = "bootloader";
+			reg = <0x0 0x10000>;
+			read-only;
+		};
+		partition@10000 {
+			label = "kernel";
+			reg = <0x10000 0x400000>;
+		};
+		partition@103000 {
+			label = "rootfs";
+			reg = <0x103000 0x400000>;
+		};
+		partition@3c7000 {
+			label = "settings";
+			reg = <0x3c7000 0x400000>;
+		};
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&cpu_clk {
+	clock-frequency = <380000000>; /* 380MHz */
+};

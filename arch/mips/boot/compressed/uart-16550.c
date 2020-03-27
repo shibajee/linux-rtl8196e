@@ -35,6 +35,11 @@
 #define IOTYPE unsigned int
 #endif
 
+#ifdef CONFIG_MACH_RTL8196E
+#define UART0_BASE 0xB8002000
+#define PORT(offset) (UART0_BASE + (4 * offset))
+#endif
+
 #ifndef IOTYPE
 #define IOTYPE char
 #endif

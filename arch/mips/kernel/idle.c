@@ -112,6 +112,13 @@ static void __cpuidle au1k_wait(void)
 	: : "r" (au1k_wait), "r" (c0status));
 }
 
+static void rlx4181_wait(void)
+{
+	/* Execute RLX4181 'sleep' instruction */
+	asm volatile(".word 0x42000038");
+	local_irq_enable();
+}
+
 static int __initdata nowait;
 
 static int __init wait_disable(char *s)
@@ -244,6 +251,9 @@ void __init check_wait(void)
 		 * disable the use of WAIT for 20Kc entirely.
 		   cpu_wait = r4k_wait;
 		 */
+		break;
+	case CPU_RLX4181:
+		cpu_wait = rlx4181_wait;
 		break;
 	default:
 		break;

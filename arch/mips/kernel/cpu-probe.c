@@ -1579,6 +1579,12 @@ static inline void cpu_probe_legacy(struct cpuinfo_mips *c, unsigned int cpu)
 		}
 
 		break;
+	case PRID_IMP_RLX4181:
+		c->cputype = CPU_RLX4181;
+		__cpu_name[cpu] = "Realtek Lexra RLX4181";
+		c->options = MIPS_CPU_TLB | MIPS_CPU_RLX4181_CACHE;
+		c->tlbsize = 32;
+		break;
 	}
 }
 
