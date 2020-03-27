@@ -246,6 +246,11 @@ config RENESAS_RZA1_IRQC
 	  Enable support for the Renesas RZ/A1 Interrupt Controller, to use up
 	  to 8 external interrupts with configurable sense select.
 
+config RTL8196E_IRQ
+	bool
+	depends on MACH_RTL8196E
+	select IRQ_DOMAIN
+
 config ST_IRQCHIP
 	bool
 	select REGMAP
