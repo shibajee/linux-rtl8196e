@@ -47,7 +47,7 @@ static void __iomem *base;
 
 static void rtl8196e_set0_enable_bit(int enabled)
 {
-	u16 tccnr;
+	u32 tccnr;
 
 	tccnr = readl(base + TCCNR);
 	tccnr &= ~(TCCNR_TC0_EN_BIT);
@@ -60,7 +60,7 @@ static void rtl8196e_set0_enable_bit(int enabled)
 
 static void rtl8196e_set1_enable_bit(int enabled)
 {
-	u16 tccnr;
+	u32 tccnr;
 
 	tccnr = readl(base + TCCNR);
 	tccnr &= ~(TCCNR_TC1_EN_BIT);
@@ -73,7 +73,7 @@ static void rtl8196e_set1_enable_bit(int enabled)
 
 static void rtl8196e_set0_mode_bit(int mode)
 {
-	u16 tccnr;
+	u32 tccnr;
 
 	tccnr = readl(base + TCCNR);
 	tccnr &= ~(TCCNR_TC0_MODE_BIT);
@@ -86,7 +86,7 @@ static void rtl8196e_set0_mode_bit(int mode)
 
 static void rtl8196e_set1_mode_bit(int mode)
 {
-	u16 tccnr;
+	u32 tccnr;
 
 	tccnr = readl(base + TCCNR);
 	tccnr &= ~(TCCNR_TC1_MODE_BIT);
